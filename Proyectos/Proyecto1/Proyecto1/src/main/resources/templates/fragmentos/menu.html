@@ -1,0 +1,42 @@
+
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" th:fragment="menu-principal">
+        <a class="navbar-brand" href="#">  Sound music</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <img
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{/}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/acerca}">Acerca</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAnyAuthority('Administrador','Supervisor')">
+             <a class="nav-link" th:href="@{/categorias/indexPaginado}">Generos</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAnyAuthority('Administrador','Supervisor')">
+             <a class="nav-link" th:href="@{/vacantes/indexPaginado}">Bandas</a>
+            </li> 
+            <li class="nav-item" sec:authorize="hasAnyAuthority('Administrador')">
+             <a class="nav-link" th:href="@{/usuarios/index}">Usuarios</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAnyAuthority('Administrador')">
+             <a class="nav-link" th:href="@{/perfiles/index}">Perfiles</a>
+            </li>  
+          </ul> 
+          <div class="d-flex" role="search" style="padding-right: 20px;">
+			  <div sec:authorize="isAnonymous()">
+				  	<a class="btn btn-primary" th:href="@{/login}">Ingresar</a>&nbsp;
+          			<a class="btn btn-primary" th:href="@{/signup}">Registrarse</a>&nbsp;
+			  </div>
+			  <div sec:authorize="isAuthenticated()">
+				  <span class="text-primaty" style="color: white;"><strong>Bienvenido: </strong></span>&nbsp;
+				  <span sec:authentication="name" style="padding-right: 30px; color: white;"></span>
+				  <a class="btn btn-danger" th:href="@{/logout}">Salir</a>
+			  </div>
+		  </div>          
+        </div>
+      </nav>
+    

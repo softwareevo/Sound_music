@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Sound music| Listado de bandas</title>
+    <!-- Bootstrap core CSS -->
+      <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+   <header th:insert="~{fragmentos/menu.html::menu-principal}">
+      
+    </header>
+    <main role="main">     
+      <hr>
+      <div class="container"> 
+
+        <div class="card">
+          <h4 class="card-header"><strong>Listado de Bandas</strong></h4>              
+          <div class="card-body">
+            <a class="btn btn-primary" th:href="@{/vacantes/nueva}" title="Crear nueva Oferta de Trabajo" role="button"><i class="fas fa-file" aria-hidden="true"></i> Nueva</a>            
+            <hr>
+             <div class="alert alert-success" role="alert" th:if="${msg!=null}" th:text="${msg}"></div>
+            <table class="table table-hover">
+              <thead class="thead-light">
+                <tr>
+				  <th scope="col">Id</th>
+                  <th scope="col">Generos</th>
+                  <th scope="col">Nombre</th>                  
+                  <th scope="col">Fecha Pub.</th>
+                  <th scope="col">Estatus</th>
+                  <th scope="col">Destacada</th>
+                  <th scope="col">Operaciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="vacante : ${vacantes}">
+				  <td th:text="${vacante.id}"></td>
+                  <td th:text="${vacante.categoria.nombre}"></td>
+                  <td th:text="${vacante.nombre}"></td>                  
+                  <td th:text="${vacante.fecha}"></td>
+                  <td>Creada</td>
+                  <td><span class="text-primary" th:if="${vacante.destacado == 1}">Si</span>
+                  		<span class="text-danger" th:unless="${vacante.destacado == 1}">No</span></td>
+                  
+                  <td>
+                    <a th:href="@{/vacantes/buscar(id=${vacante.id})}" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+                    <a th:href="@{/vacantes/eliminar(id=${vacante.id})}" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Eliminar el registro."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                 	<a th:href="@{/vacantes/detalle(id=${vacante.id})}" class="btn btn-success btn-sm" role="button" title="Detalle del registro."><i class="fas fa-info-circle" aria-hidden="true"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+              <tr>
+				  Total bandas: </th><td colspan="4" th:text="${total}"></td>
+			  </tr>
+            </table>
+            
+				    <nav th:if="${vacantes.totalPages > 0}" aria-label="Page navigation example" >
+    	<ul class="pagination justify-content-center">
+    		<li class="page-item" th:classappend="${vacantes.number == 0 ? 'disabled' : ''}">
+    			<a th:href="@{/vacantes/indexPaginado(page=${vacantes.number - 1})}" class="page-link">Anterior</a>
+    		</li>
+    					
+    		<li class="page-item" th:classappend="${i eq vacantes.number + 1} ? 'active'" th:each="i : ${#numbers.sequence( 1, vacantes.totalPages, 1)}">
+    			<a class="page-link" th:href="@{/vacantes/indexPaginado?page={tmpPag} (tmpPag=${i-1}) }" th:text="${i}" th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+    		</li>
+    		<li class="page-item" th:classappend="${vacantes.number == (vacantes.totalPages - 1) ? 'disabled' : ''}">
+    			<a th:href="@{/vacantes/indexPaginado(page=${vacantes.number + 1})}" class="page-link">Siguiente</a>
+    		</li>
+    	</ul>
+    </nav>
+
+          </div>
+        </div>
+      </div> <!-- /container -->
+
+    </main>
+
+     <footer class="footer" th:insert="~{fragmentos/pie.html::pie}">
+      
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script th:src="@{bootstrap/js/bootstrap.min.js}"></script>     
+  </body>
+</html>
